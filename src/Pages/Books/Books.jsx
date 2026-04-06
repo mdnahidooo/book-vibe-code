@@ -3,9 +3,9 @@ import { BookContext } from '../../Context/BookContextProvider';
 
 const Books = () => {
 
-    const { storedBooks } = useContext(BookContext);
-    console.log(storedBooks, 'Stored books');
-    
+    const { storedBooks, wishList } = useContext(BookContext);
+    console.log(storedBooks, wishList, 'Stored books and wish list');
+
     return (
         <div>
             <h2>Listed Books</h2>
