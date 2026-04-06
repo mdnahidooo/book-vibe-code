@@ -1,13 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BookContext } from '../../Context/BookContextProvider';
 import BookCard from '../shared/UI/BookCard';
 
-const ListedWishList = () => {
+const ListedWishList = ({ sortingType }) => {
 
-    const {  wishList } = useContext(BookContext);
-    console.log(wishList, 'wish list');
-    
-    if (wishList.length === 0) {
+    const { wishList } = useContext(BookContext);
+    // console.log(wishList, 'wish list');
+
+    const [filteredWishList, setFilteredWishList] = useState(wishList);
+
+
+
+    useEffect(() => {
+        if (sortingType) {
+            if (sortingType === 'pages') {
+                const sortedData = [...wishList].sort((a, b) => a.totalPages - b.totalPages);
+                console.log(sortedData);
+
+                setFilteredWishList(sortedData);
+            }
+            else if (sortingType === 'rating') {
+                const sortedData = [...wishList].sort((a, b) => a.rating - b.rating);
+                console.log(sortedData);
+
+                setFilteredWishList(sortedData);
+            }
+        }
+    }, [sortingType, wishList]);
+
+
+
+    if (filteredWishList.length === 0) {
         return (
             <div className=" flex flex-col justify-center items-center text-center space-y-4 bg-base-200 py-10 rounded-xl mt-8">
 
@@ -25,15 +48,15 @@ const ListedWishList = () => {
                 </p>
 
             </div>
-        ) 
-        
+        )
+
     }
 
     return (
         <div>
             <div className='grid grid-cols-1 md:grid-cols-4 gap-6 mt-8'>
                 {
-                    wishList.map((book, index) => <BookCard key={index} book={book}></BookCard>)
+                    filteredWishList.map((book, index) => <BookCard key={index} book={book}></BookCard>)
                 }
             </div>
         </div>
