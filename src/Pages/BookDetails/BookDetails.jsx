@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData, useParams } from 'react-router';
+import { BookContext } from '../../Context/BookContextProvider';
 
 const BookDetails = () => {
     const { id } = useParams();
-    console.log(id, "params found");
+    // console.log(id, "params found");
 
     const books = useLoaderData();
-    console.log(books);
+    // console.log(books);
 
     const expectedBook = books.find((book) => book.bookId == id);
-    console.log(expectedBook);
+    // console.log(expectedBook);
 
-    const {  bookName, author, image, review, totalPages, rating, category, tags, publisher, yearOfPublishing } = expectedBook;
+    const {
+        bookName,
+        author,
+        image,
+        review,
+        totalPages,
+        rating,
+        category,
+        tags,
+        publisher,
+        yearOfPublishing
+    } = expectedBook;
+
+
+    const { handleMarkAsRead } = useContext(BookContext);
+    console.log(handleMarkAsRead, "book context");
+
+
 
     return (
         <div className="w-10/12 mx-auto my-8">
@@ -68,8 +86,8 @@ const BookDetails = () => {
 
                     {/* Buttons */}
                     <div className="flex gap-4 mt-6">
-                        <button className="btn btn-outline">Read</button>
-                        <button className="btn btn-info">Wishlist</button>
+                        <button className="btn btn-outline" onClick={() => handleMarkAsRead(expectedBook)}>Mark as Read</button>
+                        <button className="btn btn-info text-white">Add to Wishlist</button>
                     </div>
 
                 </div>
